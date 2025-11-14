@@ -30,6 +30,12 @@ app.get("/api/:date?" , (req , res) => {
     if(!dateString){
       date = new Date();
     
+    }else{
+      if(/^\d+$/.test(dateString)){
+        date = new Date(parseInt(dateString));
+      }else{
+        date = new Date(dateString);
+      }
     }
 
     if (date.toString() === "Invalid Date"){
