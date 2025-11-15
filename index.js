@@ -6,9 +6,8 @@ var express = require('express');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC 
 var cors = require('cors');
-app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+app.use(cors({optionsSuccessStatus: 200}));
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -24,7 +23,12 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date?" , (req , res) => {
+// The single, comprehensive timestamp API endpoint.
+// It handles:
+// 1. Explicit /api route for current time (tests 7 & 8)
+// 2. /api/:date route for all other inputs
+app.get(["/api/:date", "/api"] , (req , res) => {
+  // Use 'date' parameter, which will be undefined for the "/api" route
   let dateString = req.params.date;
   let date ;
   
