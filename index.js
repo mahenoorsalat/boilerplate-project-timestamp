@@ -19,7 +19,7 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api", (req, res) => {
+app.get("/api/", (req, res) => {
   const date = new Date();
   return res.json({
     unix: date.getTime(),
