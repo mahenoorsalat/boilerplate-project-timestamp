@@ -19,18 +19,20 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/", (req, res) => {
-  const date = new Date();
-  return res.json({
-    unix: date.getTime(),
-    utc: date.toUTCString()
-  });
-});
-
-app.get("/api/:date", (req, res) => {
+app.get("/api/:date?", (req, res) => {
   let dateString = req.params.date;
-  let date;
 
+  // If empty → return current time
+  if (!dateString) {
+    const now = new Date();
+    return res.json({
+      unix: now.getTime(),
+      utc: now.toUTCString()
+    });
+  }
+
+  // Parse number timestamp
+  let date;
   if (/^\d+$/.test(dateString)) {
     date = new Date(parseInt(dateString));
   } else {
@@ -46,6 +48,7 @@ app.get("/api/:date", (req, res) => {
     utc: date.toUTCString()
   });
 });
+
 
 
 // Listen on port set in environment variable or default to 3000
